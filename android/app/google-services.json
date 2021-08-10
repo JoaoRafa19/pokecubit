@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "290177511570",
+    "project_id": "pokecubit",
+    "storage_bucket": "pokecubit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290177511570:android:237746ec336bccff15764b",
+        "android_client_info": {
+          "package_name": "com.jp.poke_cubit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290177511570-0hvovtsaubp2s41k7fvn2vksaaehc1rk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDegpcgw4jsFwmNMqN0slaKMBa8u9QOWII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290177511570-0hvovtsaubp2s41k7fvn2vksaaehc1rk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
