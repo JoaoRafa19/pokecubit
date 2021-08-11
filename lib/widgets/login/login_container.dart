@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginContainer extends StatelessWidget {
   final void Function()? onpressed;
@@ -20,12 +21,27 @@ class LoginContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextFormField(
+            style: GoogleFonts.lato(),
+            decoration: InputDecoration(labelText: "Login"),
             controller: loginController,
           ),
+          SizedBox(height: 21),
           TextFormField(
-            controller: passwordController,
-          ),
-          SizedBox(height: 20),
+              style: GoogleFonts.lato(),
+              decoration: InputDecoration(labelText: "Senha"),
+              controller: passwordController,
+              validator: (text) {
+                String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                RegExp regExp = new RegExp(pattern);
+                if (text != null) {
+                  if (regExp.hasMatch(text)) {
+                    return 'Senha com caracteres inválidos';
+                  } else {
+                    return null;
+                  }
+                }
+              }),
+          SizedBox(height: 27),
           Container(
             color: Colors.blueAccent[400],
             width: mediaQuery.size.width * .3,
