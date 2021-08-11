@@ -11,7 +11,6 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
