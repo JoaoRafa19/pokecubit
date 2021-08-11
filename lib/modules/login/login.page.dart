@@ -16,21 +16,39 @@ class LoginPage extends StatelessWidget {
       body: Container(
         color: Colors.white,
         child: Center(
-          child: BlocBuilder<LoginCubit, LoginState>(
+          child: BlocConsumer<LoginCubit, LoginState>(
+            listener: (context, state) {
+              if (state is LoginErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    key: Key('SnackBarDefault'),
+                    backgroundColor: Colors.lightBlue,
+                    content: Text(
+                      state.message,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               if (state is LoginInitial) {
                 return LoginContainer(
                   loginController: context.read<LoginCubit>().loginController,
                   passwordController: context.read<LoginCubit>().passwordController,
-                  onpressed: () => context.read<LoginCubit>().login,
+                  onpressed: context.read<LoginCubit>().login,
                 );
               } else if (state is LoginWaitingState) {
-                return CircularProgressIndicator(color: Colors.black);
+                return Container(color: Colors.white30, child: CircularProgressIndicator(color: Colors.black));
               } else {
                 return LoginContainer(
                   loginController: context.read<LoginCubit>().loginController,
                   passwordController: context.read<LoginCubit>().passwordController,
-                  onpressed: () => context.read<LoginCubit>().login,
+                  onpressed: context.read<LoginCubit>().login,
                 );
               }
             },

@@ -15,13 +15,18 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
 
   Future<void> login() async {
+    if (_login.isEmpty || _password.isEmpty) {
+      emit(LoginErrorState("Login ou senha vazios!"));
+      return;
+    }
     emit(LoginWaitingState());
-    print(FirebaseAuth.instance.currentUser);
+    await Future.delayed(Duration(seconds: 3));
     if (FirebaseAuth.instance.currentUser == null || FirebaseAuth.instance.currentUser?.isAnonymous == true) {
       UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _login, password: _password);
       if (user.credential?.token == null) {
-        emit(LoginErrorState());
+        emit(LoginErrorState("Erro no login"));
       } else {
+        // TODO: Navegar para tela inicial
         emit(LoginSuscessfullState());
       }
     }

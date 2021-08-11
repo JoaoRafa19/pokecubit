@@ -7,6 +7,10 @@ class LoginInitial extends LoginState {}
 
 class LoginWaitingState extends LoginState {}
 
-class LoginErrorState extends LoginState {}
+class LoginErrorState extends LoginState {
+  final message;
+
+  LoginErrorState(this.message);
+}
 
 class LoginSuscessfullState extends LoginState {}
