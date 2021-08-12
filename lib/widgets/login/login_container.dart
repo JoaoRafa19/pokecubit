@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,6 +25,11 @@ class LoginContainer extends StatelessWidget {
             style: GoogleFonts.lato(),
             decoration: InputDecoration(labelText: "Login"),
             controller: loginController,
+            validator: (email) {
+              if (email != null) {
+                EmailValidator.validate(email);
+              }
+            },
           ),
           SizedBox(height: 21),
           TextFormField(
@@ -43,9 +49,9 @@ class LoginContainer extends StatelessWidget {
               }),
           SizedBox(height: 27),
           Container(
-            color: Colors.blueAccent[400],
             width: mediaQuery.size.width * .3,
-            child: TextButton(
+            child: MaterialButton(
+              color: Theme.of(context).primaryColor.withAlpha(100),
               child: Text("LOGIN",
                   style: TextStyle(
                     color: Colors.white,

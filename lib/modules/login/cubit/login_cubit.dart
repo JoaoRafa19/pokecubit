@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:poke_cubit/widgets/common/sleep.func.dart';
 
 part 'login_state.dart';
 
@@ -20,14 +21,19 @@ class LoginCubit extends Cubit<LoginState> {
       return;
     }
     emit(LoginWaitingState());
-    await Future.delayed(Duration(seconds: 3));
+    await sleep(3);
     if (FirebaseAuth.instance.currentUser == null || FirebaseAuth.instance.currentUser?.isAnonymous == true) {
-      UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _login, password: _password);
-      if (user.credential?.token == null) {
-        emit(LoginErrorState("Erro no login"));
-      } else {
-        // TODO: Navegar para tela inicial
-        emit(LoginSuscessfullState());
+      try {
+        UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _login, password: _password);
+
+        if (user.credential?.token == null) {
+          emit(LoginErrorState("Erro no login"));
+        } else {
+          //TODO:Navegar para tela inicial
+          emit(LoginSuscessfullState());
+        }
+      } catch (error) {
+        emit(LoginErrorState("Usuário não encontrado"));
       }
     }
   }
