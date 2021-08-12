@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
@@ -13,15 +11,26 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            child: Center(
+      body: Container(
+        color: Colors.white,
+        child: Stack(
+          children: [
+            Center(
+              heightFactor: mediaQuery.size.height * 0.001,
+              child: Container(
+                width: mediaQuery.size.height * .3,
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: pokeballImage,
+                ),
+              ),
+            ),
+            Center(
               child: BlocConsumer<LoginCubit, LoginState>(
                 listener: (context, state) {
                   if (state is LoginErrorState) {
@@ -56,19 +65,8 @@ class LoginPage extends StatelessWidget {
                 },
               ),
             ),
-          ),
-          Positioned(
-            left: (mediaQuery.size.width - mediaQuery.size.height * .3) / 2,
-            top: -40,
-            child: Container(
-              width: mediaQuery.size.height * .3,
-              child: Image(
-                fit: BoxFit.fill,
-                image: pokeballImage,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -21,32 +21,56 @@ class LoginContainer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextFormField(
-            style: GoogleFonts.lato(),
-            decoration: InputDecoration(labelText: "Login"),
-            controller: loginController,
-            validator: (email) {
-              if (email != null) {
-                EmailValidator.validate(email);
-              }
-            },
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorLight,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextFormField(
+              style: GoogleFonts.lato(),
+              decoration: InputDecoration(
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                labelText: "Login",
+                icon: Icon(Icons.account_circle),
+              ),
+              controller: loginController,
+              validator: (email) {
+                if (email != null) {
+                  EmailValidator.validate(email);
+                }
+              },
+            ),
           ),
           SizedBox(height: 21),
-          TextFormField(
-              style: GoogleFonts.lato(),
-              decoration: InputDecoration(labelText: "Senha"),
-              controller: passwordController,
-              validator: (text) {
-                String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-                RegExp regExp = new RegExp(pattern);
-                if (text != null) {
-                  if (regExp.hasMatch(text)) {
-                    return 'Senha com caracteres inválidos';
-                  } else {
-                    return null;
+          Container(
+            padding: EdgeInsets.only(left: 10),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorLight,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextFormField(
+                style: GoogleFonts.lato(),
+                decoration: InputDecoration(
+                  labelText: "Senha",
+                  focusedBorder: InputBorder.none,
+                  icon: Icon(Icons.lock),
+                  enabledBorder: InputBorder.none,
+                ),
+                controller: passwordController,
+                validator: (text) {
+                  String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                  RegExp regExp = new RegExp(pattern);
+                  if (text != null) {
+                    if (regExp.hasMatch(text)) {
+                      return 'Senha com caracteres inválidos';
+                    } else {
+                      return null;
+                    }
                   }
-                }
-              }),
+                }),
+          ),
           SizedBox(height: 27),
           Container(
             width: mediaQuery.size.width * .3,
