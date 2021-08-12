@@ -29,7 +29,6 @@ class LoginCubit extends Cubit<LoginState> {
         if (user.credential?.token == null) {
           emit(LoginErrorState("Erro no login"));
         } else {
-          //TODO:Navegar para tela inicial
           emit(LoginSuscessfullState());
         }
       } catch (error) {

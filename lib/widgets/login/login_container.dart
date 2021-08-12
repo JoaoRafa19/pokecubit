@@ -1,17 +1,16 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:poke_cubit/modules/home/home.page.dart';
+import 'package:poke_cubit/modules/signup/cubit/signup_cubit.dart';
+import 'package:poke_cubit/modules/signup/signup.page.dart';
 
 class LoginContainer extends StatelessWidget {
   final void Function()? onpressed;
   final TextEditingController loginController;
   final TextEditingController passwordController;
-  const LoginContainer({
-    Key? key,
-    required this.onpressed,
-    required this.loginController,
-    required this.passwordController,
-  }) : super(key: key);
+  const LoginContainer({Key? key, required this.onpressed, required this.loginController, required this.passwordController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -76,13 +75,27 @@ class LoginContainer extends StatelessWidget {
             width: mediaQuery.size.width * .3,
             child: MaterialButton(
               color: Theme.of(context).primaryColor.withAlpha(100),
-              child: Text("LOGIN",
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
+              child: Text(
+                "LOGIN",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               onPressed: onpressed,
             ),
           ),
+          SizedBox(height: 14),
+          TextButton(
+            child: Text("Cadastre-se", textAlign: TextAlign.justify, style: TextStyle(color: Colors.black)),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => BlocProvider<SignupCubit>(
+                  create: (context) => SignupCubit(),
+                  child: SignupPage(),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
