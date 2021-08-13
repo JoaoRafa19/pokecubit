@@ -17,6 +17,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   static final FirebaseAuth auth = FirebaseAuth.instance;
   MyApp() {
+    //auth.signOut();
     if (auth.currentUser != null) {
       if (auth.currentUser!.isAnonymous) {
         auth.signOut();

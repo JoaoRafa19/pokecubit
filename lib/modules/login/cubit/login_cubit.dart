@@ -21,12 +21,11 @@ class LoginCubit extends Cubit<LoginState> {
       return;
     }
     emit(LoginWaitingState());
-    await sleep(3);
     if (FirebaseAuth.instance.currentUser == null || FirebaseAuth.instance.currentUser?.isAnonymous == true) {
       try {
         UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _login, password: _password);
 
-        if (user.credential?.token == null) {
+        if (FirebaseAuth.instance.currentUser == null) {
           emit(LoginErrorState("Erro no login"));
         } else {
           emit(LoginSuscessfullState());

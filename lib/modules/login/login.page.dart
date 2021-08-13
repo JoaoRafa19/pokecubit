@@ -55,7 +55,10 @@ class LoginPage extends StatelessWidget {
                 } else if (state is LoginSuscessfullState) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => BlocProvider(
+                        create: (context) => HomeCubit(),
+                        child: HomePage(),
+                      ),
                     ),
                   );
                 }
