@@ -2,7 +2,7 @@
     package="com.jp.poke_cubit">
    <application
         android:label="poke_cubit"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
