@@ -10,12 +10,10 @@ import 'cubit/home_cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
-  static HomeCubit homeCubit = HomeCubit();
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    homeCubit.fetchPokemonList();
     return Scaffold(
       appBar: AppBar(),
       endDrawer: EndDrawer(),
@@ -58,8 +56,6 @@ class HomePage extends StatelessWidget {
                         listener: (context, state) {},
                         builder: (context, state) {
                           if (state is HomeLoaded) {
-                            print(state.pokeapi);
-                            print("OK");
                             return GridView.builder(
                                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                                 itemCount: state.pokeapi.pokemons!.length,
