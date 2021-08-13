@@ -45,6 +45,7 @@ flutter:
   assets:
     - assets/pokeball.png
     - assets/pokeball_dark.png
+    - assets/pokeball_white.png
 
   # fonts:
   #   - family: Schyler
