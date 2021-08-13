@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
 import 'package:poke_cubit/modules/home/home.page.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
+import 'package:poke_cubit/modules/signup/cubit/signup_cubit.dart';
 import 'package:poke_cubit/widgets/login/login_container.dart';
 
 class LoginPage extends StatelessWidget {
@@ -50,8 +52,15 @@ class LoginPage extends StatelessWidget {
                       duration: Duration(seconds: 2),
                     ),
                   );
-                } else if (state is LoginSuscessfullState) {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+                }  else if (state is SignUpSussesfully) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider<HomeCubit>(
+                        create: (context) => HomeCubit(),
+                        child: HomePage(),
+                      ),
+                    ),
+                  );
                 }
               },
               builder: (context, state) {
