@@ -5,7 +5,7 @@ class PokeCard extends StatelessWidget {
   final Pokemon pokemon;
   final Color? color;
   final int index;
-  const PokeCard({required this.pokemon,this.color,required this.index});
+  const PokeCard({required this.pokemon, this.color, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class PokeCard extends StatelessWidget {
               child: Opacity(
                 opacity: 0.35,
                 child: Image.asset(
-                  "assets/pokeball.png",
-                  color: Colors.white10,
+                  "assets/pokeball_dark.png",
+                  color: Colors.black,
                   height: height * 0.3,
                   width: width * 0.3,
                 ),

@@ -32,6 +32,7 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         children: [
                           Container(
+                            margin: EdgeInsets.only(top: mediaQuery.size.height * 0.01),
                             child: Text(
                               "Pokedex",
                               style: GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.w800),
@@ -52,6 +53,7 @@ class HomePage extends StatelessWidget {
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                     ),
                     width: mediaQuery.size.width * 0.9,
+                    height: mediaQuery.size.height * 0.8,
                     child: BlocConsumer<HomeCubit, HomeState>(
                         listener: (context, state) {},
                         builder: (context, state) {
@@ -63,7 +65,17 @@ class HomePage extends StatelessWidget {
                                   return AnimationConfiguration.staggeredGrid(
                                     position: index,
                                     columnCount: 3,
-                                    child: ScaleAnimation(child: GestureDetector(child: Padding(padding: EdgeInsets.all(8), child: PokeCard(index: index, pokemon: state.pokeapi.pokemons![index])))),
+                                    child: ScaleAnimation(
+                                      child: GestureDetector(
+                                        child: Padding(
+                                          padding: EdgeInsets.all(8),
+                                          child: PokeCard(
+                                            index: index,
+                                            pokemon: state.pokeapi.pokemons![index],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 });
                           } else {
