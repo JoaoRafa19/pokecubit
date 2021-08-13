@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poke_cubit/widgets/common/enddrawer.widget.dart';
+import 'package:flutter_staggered_animations/src/animation_configuration.dart';
+import 'package:poke_cubit/widgets/home/pokemon.card.dart';
+import 'cubit/home_cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
+  static HomeCubit homeCubit = HomeCubit();
 
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
+    homeCubit.fetchPokemonList();
     return Scaffold(
       appBar: AppBar(),
       endDrawer: EndDrawer(),
@@ -27,12 +36,7 @@ class HomePage extends StatelessWidget {
                           Container(
                             child: Text(
                               "Pokedex",
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 29,
-                                fontFamily: 'Google',
-                                fontWeight: FontWeight.w800,
-                              ),
+                              style: GoogleFonts.lato(fontSize: 30, fontWeight: FontWeight.w800),
                             ),
                           ),
                         ],
@@ -45,9 +49,31 @@ class HomePage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 50),
                 child: Center(
                   child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                    decoration: BoxDecoration(
+                      color: Colors.white30,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                    ),
                     width: mediaQuery.size.width * 0.9,
-                    color: Colors.white30,
+                    child: BlocConsumer<HomeCubit, HomeState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          if (state is HomeLoaded) {
+                            print(state.pokeapi);
+                            print("OK");
+                            return GridView.builder(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                                itemCount: state.pokeapi.pokemons!.length,
+                                itemBuilder: (item, index) {
+                                  return AnimationConfiguration.staggeredGrid(
+                                    position: index,
+                                    columnCount: 3,
+                                    child: ScaleAnimation(child: GestureDetector(child: Padding(padding: EdgeInsets.all(8), child: PokeCard(index: index, pokemon: state.pokeapi.pokemons![index])))),
+                                  );
+                                });
+                          } else {
+                            return SpinKitCubeGrid(color: Colors.black);
+                          }
+                        }),
                   ),
                 ),
               ),
@@ -55,7 +81,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-    
     );
   }
 }
