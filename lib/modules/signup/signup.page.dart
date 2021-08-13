@@ -10,6 +10,8 @@ class SignupPage extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
+        title: Text('Cadastro'),
+        centerTitle: true,
         backgroundColor: Colors.lightBlue,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop()),
       ),
