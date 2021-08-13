@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poke_cubit/modules/home/home.page.dart';
 import 'package:poke_cubit/modules/signup/cubit/signup_cubit.dart';
 import 'package:poke_cubit/modules/signup/signup.page.dart';
 
