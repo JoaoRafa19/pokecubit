@@ -14,21 +14,18 @@ class SignupCubit extends Cubit<SignUpState> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> signup() async {
-    try{
-      if (emailController.text.isNotEmpty &&
-          passwordController.text.isNotEmpty &&
-          nameController.text.isNotEmpty) {
-        UserCredential credential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text);
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(credential.user!.uid)
-            .set({"name": nameController.text});
+    try {
+      if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty && nameController.text.isNotEmpty) {
+        UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+
+        await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).set({"name": nameController.text});
       } else {
         emit(SignUpError('Preencha todos os dados'));
-
-    }}catch(error){
+      }
+    } catch (error) {
+      if (error is FirebaseAuthException) {
+        emit(SignUpError(error.message));
+      }
       print(error);
     }
   }

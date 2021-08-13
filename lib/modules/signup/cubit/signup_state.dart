@@ -8,7 +8,7 @@ class SignUpInitial extends SignUpState {}
 class SignUpSussesfully extends SignUpState {}
 
 class SignUpError extends SignUpState {
-  final String errorMessage;
+  final String? errorMessage;
   
   SignUpError(this.errorMessage);
 }

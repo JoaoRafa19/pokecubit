@@ -24,7 +24,7 @@ class SignupPage extends StatelessWidget {
                   key: Key('SnackBarDefault'),
                   backgroundColor: Colors.lightBlue,
                   content: Text(
-                    state.errorMessage,
+                    state.errorMessage!,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

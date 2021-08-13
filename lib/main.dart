@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'PokeCubit',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, textTheme: GoogleFonts.robotoTextTheme()),
-      home: auth.currentUser == null || auth.currentUser!.isAnonymous
+      home: C == null || auth.currentUser!.isAnonymous
           ? BlocProvider<LoginCubit>(
               create: (context) => LoginCubit(),
               child: LoginPage(),
