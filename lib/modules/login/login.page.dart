@@ -3,14 +3,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
 import 'package:poke_cubit/modules/home/home.page.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
-import 'package:poke_cubit/modules/signup/cubit/signup_cubit.dart';
 import 'package:poke_cubit/widgets/login/login_container.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-  static const pokeballImage = AssetImage('assets/pokeball.png');
 
   @override
+  State<LoginPage> createState() => LoginStatefull();
+}
+
+class LoginStatefull extends State<LoginPage> with TickerProviderStateMixin {
+  static const pokeballImage = AssetImage('assets/pokeball.png');
+
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..repeat(reverse: false);
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.linear,
+  );
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
@@ -65,7 +84,13 @@ class LoginPage extends StatelessWidget {
               },
               builder: (context, state) {
                 if (state is LoginWaitingState) {
-                  return Container(color: Colors.white30, child: CircularProgressIndicator(color: Colors.black));
+                  return Container(
+                    color: Colors.white30,
+                    child: RotationTransition(
+                      turns: _animation,
+                      child: Container(width: 70, height: 70, child: Padding(padding: EdgeInsets.all(8), child: Image.asset('assets/pokeball_spin.png'))),
+                    ),
+                  );
                 } else {
                   return LoginContainer(
                     loginController: context.read<LoginCubit>().loginController,

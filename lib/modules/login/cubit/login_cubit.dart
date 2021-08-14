@@ -15,6 +15,10 @@ class LoginCubit extends Cubit<LoginState> {
 
   LoginCubit() : super(LoginInitial());
 
+  
+
+  
+
   Future<void> login() async {
     if (_login.isEmpty || _password.isEmpty) {
       emit(LoginErrorState("Login ou senha vazios!"));

@@ -4,7 +4,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poke_cubit/widgets/common/enddrawer.widget.dart';
-import 'package:flutter_staggered_animations/src/animation_configuration.dart';
 import 'package:poke_cubit/widgets/home/pokemon.card.dart';
 import 'cubit/home_cubit.dart';
 
@@ -89,7 +88,7 @@ class HomePage extends StatelessWidget {
                                   itemBuilder: (item, index) {
                                     return AnimationConfiguration.staggeredGrid(
                                       position: index,
-                                      columnCount: 3,
+                                      columnCount: 2,
                                       child: ScaleAnimation(
                                         child: GestureDetector(
                                           child: Padding(

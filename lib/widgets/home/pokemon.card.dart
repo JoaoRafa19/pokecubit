@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poke_cubit/models/pokemon.model.dart';
+import 'package:poke_cubit/modules/details/details.page.dart';
 
 class PokeCard extends StatelessWidget {
   final Pokemon pokemon;
@@ -11,49 +12,55 @@ class PokeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Container(
-      decoration: BoxDecoration(
-        color: this.pokemon.color != null ? this.pokemon.color : Colors.red,
-        borderRadius: BorderRadius.circular(28),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(7),
-        child: Stack(
-          alignment: Alignment.topLeft,
-          children: [
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Opacity(
-                opacity: 0.35,
-                child: Image.asset(
-                  "assets/pokeball_dark.png",
-                  color: Colors.black,
-                  height: height * 0.3,
-                  width: width * 0.3,
+    return GestureDetector(
+      onTap: () => Navigator.push(context, PageRouteBuilder(transitionDuration: Duration(seconds: 2), pageBuilder: (_, __, ___) => PokemonDetailsPage(pokemon: pokemon))),
+      child: Container(
+        decoration: BoxDecoration(
+          color: this.pokemon.color != null ? this.pokemon.color : Colors.red,
+          borderRadius: BorderRadius.circular(28),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(7),
+          child: Stack(
+            alignment: Alignment.topLeft,
+            children: [
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Opacity(
+                  opacity: 0.35,
+                  child: Image.asset(
+                    "assets/pokeball_dark.png",
+                    color: Colors.black,
+                    height: height * 0.3,
+                    width: width * 0.3,
+                  ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: pokemon.getImage(heigh: height * 0.3, width: width * 0.3),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: width * .05),
-              child: Text(
-                pokemon.name!,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Google',
-                  fontSize: 21,
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Hero(
+                  tag: '${pokemon.id}',
+                  child: pokemon.getImage(heigh: height * 0.3, width: width * 0.3),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5),
-              child: typesColumn(),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(left: width * .05),
+                child: Text(
+                  pokemon.name!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Google',
+                    fontSize: 21,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: typesColumn(),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -159,7 +159,7 @@ class Pokemon {
     return data;
   }
 
-  Widget getImage({required double width,required double heigh}) {
+  Widget getImage({double? width, double? heigh}) {
     return CachedNetworkImage(
       height: heigh,
       width: width,
