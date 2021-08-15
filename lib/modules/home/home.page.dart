@@ -30,10 +30,13 @@ class HomePage extends StatelessWidget {
                   right: -150,
                   top: -190,
                   child: Stack(children: [
-                    Image.asset(
-                      'assets/pokeball_white.png',
-                      color: Colors.grey[300],
-                      width: mediaQuery.size.width * 0.9,
+                    Hero(
+                      tag: "pokeball",
+                      child: Image.asset(
+                        'assets/pokeball_white.png',
+                        color: Colors.grey[300],
+                        width: mediaQuery.size.width * 0.9,
+                      ),
                     ),
                     Positioned(
                         top: 165,

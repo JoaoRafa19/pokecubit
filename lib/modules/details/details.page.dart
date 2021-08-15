@@ -8,6 +8,8 @@ class PokemonDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
       backgroundColor: (pokemon.color as Color),
@@ -23,6 +25,20 @@ class PokemonDetailsPage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Hero(
+              tag: "pokeball",
+              child: Transform.rotate(
+                angle: 60,
+                child: Image.asset(
+                  'assets/pokeball_white.png',
+                  color: Colors.white.withAlpha(100),
+                  width: mediaQuery.size.width * 0.9,
+                ),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Align(
@@ -64,7 +80,7 @@ class PokemonDetailsPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            titleAndDetailWidget("Tipos", Hero(tag: "${pokemon.id} type", child: widgetRow(pokemon.type))),
+                            titleAndDetailWidget("Tipos", widgetRow(pokemon.type)),
                             titleAndDetailWidget("Altura:", detailWidget("${pokemon.height}")),
                             titleAndDetailWidget("Peso:", detailWidget("${pokemon.weight}")),
                             titleAndDetailWidget("egg:", detailWidget("${pokemon.egg}")),
@@ -109,6 +125,7 @@ class PokemonDetailsPage extends StatelessWidget {
               padding: EdgeInsets.all(8),
               child: Text(
                 item.trim(),
+                maxLines: 1,
                 style: TextStyle(
                   fontFamily: 'Google',
                   fontSize: 20,
@@ -126,38 +143,6 @@ class PokemonDetailsPage extends StatelessWidget {
       children: lista,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
-    );
-  }
-
-  Widget widgetRowList(list) {
-    List<Widget> lista = [];
-    list!.forEach((item) {
-      lista.add(
-        Container(
-          padding: EdgeInsets.only(left: 2.5, right: 2.5),
-          margin: EdgeInsets.only(left: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: pokemon.color.withAlpha(150),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              item.trim(),
-              style: TextStyle(
-                fontFamily: 'Google',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-      );
-    });
-    return ListView(
-      children: lista,
-      scrollDirection: Axis.horizontal,
     );
   }
 

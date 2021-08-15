@@ -57,7 +57,7 @@ class PokeCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 5),
-                child: Hero(tag: "${pokemon.id} type", child: typesColumn()),
+                child: typesColumn(),
               )
             ],
           ),
@@ -81,6 +81,7 @@ class PokeCard extends StatelessWidget {
               padding: EdgeInsets.all(6),
               child: Text(
                 type.trim(),
+                maxLines: 1,
                 style: TextStyle(
                   fontFamily: 'Google',
                   fontSize: 12,
