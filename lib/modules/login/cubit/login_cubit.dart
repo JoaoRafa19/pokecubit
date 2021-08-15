@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:poke_cubit/widgets/common/sleep.func.dart';
 
 part 'login_state.dart';
 
