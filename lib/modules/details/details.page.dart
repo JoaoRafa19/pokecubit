@@ -64,12 +64,13 @@ class PokemonDetailsPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            titleAndDetailWidget("Tipos", typesRow()),
+                            titleAndDetailWidget("Tipos", Hero(tag: "${pokemon.id} type", child: widgetRow(pokemon.type))),
                             titleAndDetailWidget("Altura:", detailWidget("${pokemon.height}")),
                             titleAndDetailWidget("Peso:", detailWidget("${pokemon.weight}")),
                             titleAndDetailWidget("egg:", detailWidget("${pokemon.egg}")),
                             titleAndDetailWidget("candy:", detailWidget("${pokemon.candy}")),
-                            titleAndDetailWidget("spawn_time:", detailWidget("${pokemon.spawnTime}")),
+                            titleAndDetailWidget("spawn time:", detailWidget("${pokemon.spawnTime}")),
+                            //widgetRowList(pokemon.weaknesses)
                           ],
                         ),
                       )),
@@ -92,9 +93,9 @@ class PokemonDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget typesRow() {
+  Widget widgetRow(list) {
     List<Widget> lista = [];
-    this.pokemon.type!.forEach((type) {
+    list!.forEach((item) {
       lista.add(Column(
         children: <Widget>[
           Container(
@@ -107,7 +108,7 @@ class PokemonDetailsPage extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(8),
               child: Text(
-                type.trim(),
+                item.trim(),
                 style: TextStyle(
                   fontFamily: 'Google',
                   fontSize: 20,
@@ -125,6 +126,38 @@ class PokemonDetailsPage extends StatelessWidget {
       children: lista,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
+    );
+  }
+
+  Widget widgetRowList(list) {
+    List<Widget> lista = [];
+    list!.forEach((item) {
+      lista.add(
+        Container(
+          padding: EdgeInsets.only(left: 2.5, right: 2.5),
+          margin: EdgeInsets.only(left: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: pokemon.color.withAlpha(150),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              item.trim(),
+              style: TextStyle(
+                fontFamily: 'Google',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return ListView(
+      children: lista,
+      scrollDirection: Axis.horizontal,
     );
   }
 

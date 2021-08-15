@@ -57,7 +57,7 @@ class PokeCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 5),
-                child: typesColumn(),
+                child: Hero(tag: "${pokemon.id} type", child: typesColumn()),
               )
             ],
           ),
