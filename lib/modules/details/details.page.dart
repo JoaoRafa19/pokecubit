@@ -98,7 +98,6 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
                             titleAndDetailWidget("Tipos", widgetRow(widget.pokemon.type)),
                             titleAndDetailWidget("Altura:", detailWidget("${widget.pokemon.height}")),
                             titleAndDetailWidget("Peso:", detailWidget("${widget.pokemon.weight}")),
-                            titleAndDetailWidget("Ovo:", detailWidget("${widget.pokemon.egg}")),
                             titleAndDetailWidget("Doce:", detailWidget("${widget.pokemon.candy}")),
                             titleAndDetailWidget("spawn time:", detailWidget("${widget.pokemon.spawnTime}")),
                             Padding(
