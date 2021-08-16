@@ -30,6 +30,7 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.1
+  flutter_native_splash: ^1.2.1
   flutter_test:
     sdk: flutter
 
@@ -59,3 +60,8 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/pokedex-icon.png"
+  ios: false
+  fullscreen: true
