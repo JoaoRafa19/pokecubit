@@ -2,24 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poke_cubit/models/pokemon.model.dart';
 
-class PokemonDetailsPage extends StatelessWidget {
+class PokemonDetailsPage extends StatefulWidget {
   final Pokemon pokemon;
   PokemonDetailsPage({Key? key, required this.pokemon}) : super(key: key);
 
   @override
+  _PokemonDetailsPageState createState() => _PokemonDetailsPageState();
+}
+
+class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 10),
+    vsync: this,
+  )..repeat(reverse: false);
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.linear,
+  );
+
+  @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
-      backgroundColor: (pokemon.color as Color),
+      backgroundColor: (widget.pokemon.color as Color),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.favorite),
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Icon(Icons.favorite),
+          // ),
         ],
       ),
       body: Stack(
@@ -31,10 +43,13 @@ class PokemonDetailsPage extends StatelessWidget {
               tag: "pokeball",
               child: Transform.rotate(
                 angle: 60,
-                child: Image.asset(
-                  'assets/pokeball_white.png',
-                  color: Colors.white.withAlpha(100),
-                  width: mediaQuery.size.width * 0.9,
+                child: RotationTransition(
+                  turns: _animation,
+                  child: Image.asset(
+                    'assets/pokeball_white.png',
+                    color: Colors.white.withAlpha(100),
+                    width: mediaQuery.size.width * 0.9,
+                  ),
                 ),
               ),
             ),
@@ -44,8 +59,8 @@ class PokemonDetailsPage extends StatelessWidget {
             child: Align(
               alignment: Alignment.topCenter,
               child: Hero(
-                tag: '${pokemon.id}',
-                child: pokemon.getImage(width: mediaQuery.size.width * 0.7),
+                tag: '${widget.pokemon.id}',
+                child: widget.pokemon.getImage(width: mediaQuery.size.width * 0.7),
               ),
             ),
           ),
@@ -74,19 +89,26 @@ class PokemonDetailsPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Text(
-                                    "${pokemon.name}",
+                                    "${widget.pokemon.name}",
                                     style: GoogleFonts.nunito(fontSize: 40, fontWeight: FontWeight.w800, color: Colors.grey[700]),
                                   ),
                                 )
                               ],
                             ),
-                            titleAndDetailWidget("Tipos", widgetRow(pokemon.type)),
-                            titleAndDetailWidget("Altura:", detailWidget("${pokemon.height}")),
-                            titleAndDetailWidget("Peso:", detailWidget("${pokemon.weight}")),
-                            titleAndDetailWidget("egg:", detailWidget("${pokemon.egg}")),
-                            titleAndDetailWidget("candy:", detailWidget("${pokemon.candy}")),
-                            titleAndDetailWidget("spawn time:", detailWidget("${pokemon.spawnTime}")),
-                            //widgetRowList(pokemon.weaknesses)
+                            titleAndDetailWidget("Tipos", widgetRow(widget.pokemon.type)),
+                            titleAndDetailWidget("Altura:", detailWidget("${widget.pokemon.height}")),
+                            titleAndDetailWidget("Peso:", detailWidget("${widget.pokemon.weight}")),
+                            titleAndDetailWidget("Ovo:", detailWidget("${widget.pokemon.egg}")),
+                            titleAndDetailWidget("Doce:", detailWidget("${widget.pokemon.candy}")),
+                            titleAndDetailWidget("spawn time:", detailWidget("${widget.pokemon.spawnTime}")),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Fraquezas: ", maxLines: 1, style: GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.bold)),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Wrap(direction: Axis.horizontal, spacing: 8.0, children: widgetRowList(widget.pokemon.weaknesses)),
+                            ),
                           ],
                         ),
                       )),
@@ -119,7 +141,7 @@ class PokemonDetailsPage extends StatelessWidget {
             margin: EdgeInsets.only(left: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: pokemon.color.withAlpha(150),
+              color: widget.pokemon.color.withAlpha(150),
             ),
             child: Padding(
               padding: EdgeInsets.all(8),
@@ -146,12 +168,41 @@ class PokemonDetailsPage extends StatelessWidget {
     );
   }
 
+  List<Widget> widgetRowList(list) {
+    List<Widget> lista = [];
+    list!.forEach((item) {
+      lista.add(
+        Container(
+          padding: EdgeInsets.only(left: 2.5, right: 2.5),
+          margin: EdgeInsets.only(left: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: widget.pokemon.color.withAlpha(150),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Text(
+              item.trim(),
+              style: TextStyle(
+                fontFamily: 'Google',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+    return lista;
+  }
+
   Widget detailWidget(String text) {
     return Container(
       padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: pokemon.color.withAlpha(150),
+        color: widget.pokemon.color.withAlpha(150),
       ),
       child: Padding(
         padding: EdgeInsets.all(8),
