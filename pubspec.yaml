@@ -48,7 +48,8 @@ flutter:
     - assets/pokeball_dark.png
     - assets/pokeball_white.png
     - assets/pokeball_spin.png
-
+    - assets/pokedex-app-splash.jpg
+    - assets/pokedex-app-splash.png
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -61,7 +62,7 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
 flutter_native_splash:
-  color: "#ffffff"
-  image: "assets/pokedex-icon.png"
+  color: "#f2f2f2"
+  image: "assets/pokedex-app-splash.png"
   ios: false
   fullscreen: true
