@@ -17,8 +17,8 @@ class SignupCubit extends Cubit<SignUpState> {
     try {
       if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty && nameController.text.isNotEmpty) {
         UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
-
         await FirebaseFirestore.instance.collection('users').doc(credential.user!.uid).set({"name": nameController.text});
+        emit(SignUpSussesfully());
       } else {
         emit(SignUpError('Preencha todos os dados'));
       }
