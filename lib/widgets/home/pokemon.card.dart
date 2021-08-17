@@ -13,7 +13,7 @@ class PokeCard extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: () => Navigator.push(context, PageRouteBuilder(transitionDuration: Duration(seconds: 2), pageBuilder: (_, __, ___) => PokemonDetailsPage(pokemon: pokemon))),
+      onTap: () => Navigator.push(context, PageRouteBuilder(transitionDuration: Duration(seconds: 5), pageBuilder: (_, __, ___) => PokemonDetailsPage(pokemon: pokemon))),
       child: Container(
         decoration: BoxDecoration(
           color: this.pokemon.color != null ? this.pokemon.color : Colors.red,

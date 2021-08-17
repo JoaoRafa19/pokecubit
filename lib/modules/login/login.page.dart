@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
@@ -53,7 +55,7 @@ class LoginStatefull extends State<LoginPage> with TickerProviderStateMixin {
           ),
           Center(
             child: BlocConsumer<LoginCubit, LoginState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 if (state is LoginErrorState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -72,7 +74,11 @@ class LoginStatefull extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   );
                 } else if (state is LoginSuscessfullState) {
-                  Navigator.of(context).push(
+                  String uid = FirebaseAuth.instance.currentUser!.uid;
+                  var userDoc = await FirebaseFirestore.instance.collection("users").doc(uid).get();
+                  String name = userDoc['name'];
+                  print("nome: $name");
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => BlocProvider(
                         create: (context) => HomeCubit(),
