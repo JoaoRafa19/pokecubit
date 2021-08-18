@@ -20,7 +20,10 @@ class HomeCubit extends Cubit<HomeState> {
     pokeapi = PokeAPI(pokemons: []);
     _loadPokemons().then((pokemons) {
       pokeapi = pokemons;
-      emit(HomeLoaded(pokeapi));
+      if (pokeapi.pokemons != null && pokeapi.pokemons!.isNotEmpty) {
+        pokeapi.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+        emit(HomeLoaded(pokeapi));
+      }
     });
   }
 
