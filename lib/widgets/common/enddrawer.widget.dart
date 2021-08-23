@@ -17,16 +17,24 @@ class EndDrawer extends StatelessWidget {
 
   Stream get output => _streamController.stream;
   Sink get input => _streamController.sink;
-  bool _loading = false;
+  bool _isLoading = false;
 
-  loading() {
-    _loading = true;
+  _loading() {
+    _isLoading = true;
     input.add('loading');
   }
 
-  concluded() {
-    _loading = false;
+  _concluded() {
+    _isLoading = false;
     input.add('concluded');
+  }
+
+  _logOut(@required BuildContext context) async {
+    _loading();
+    await FirebaseAuth.instance.signOut();
+    await sleep(2);
+    _concluded();
+    Navigator.of(context).pushReplacementNamed('/login');
   }
 
   @override
@@ -37,22 +45,13 @@ class EndDrawer extends StatelessWidget {
         padding: EdgeInsets.only(top: screenSize.height * 0.1, left: 10, right: 10),
         child: Column(children: <Widget>[
           GestureDetector(
-            onTap: () async {
-              loading();
-              await FirebaseAuth.instance.signOut();
-              await sleep(2);
-              concluded();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BlocProvider(create: (context) => LoginCubit(), child: LoginPage())),
-              );
-            },
+            onTap: () => _logOut(context),
             child: Row(
               children: [
                 StreamBuilder(
                     stream: this.output,
                     builder: (context, snapshot) {
-                      if (_loading) {
+                      if (_isLoading) {
                         return CircularProgressIndicator(color: Colors.black);
                       }
                       return Icon(
