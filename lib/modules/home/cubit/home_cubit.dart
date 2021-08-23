@@ -10,10 +10,13 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   PokeAPI pokeapi = PokeAPI(pokemons: []);
+  
 
   HomeCubit() : super(HomeInitial()) {
     this.fetchPokemonList();
   }
+
+  
 
   fetchPokemonList() {
     emit(HomeLoading());
