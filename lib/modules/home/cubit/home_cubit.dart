@@ -28,6 +28,16 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
+  Future fetchPokemonListTest() async {
+    emit(HomeLoading());
+    pokeapi = PokeAPI(pokemons: []);
+    pokeapi = await _loadPokemons();
+    if (pokeapi.pokemons != null && pokeapi.pokemons!.isNotEmpty) {
+      pokeapi.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+      emit(HomeLoaded(pokeapi));
+    }
+  }
+
   Future<PokeAPI> _loadPokemons() async {
     try {
       final result = await get(Uri.parse(ConstPokeApi.baseUrl));
