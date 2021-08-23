@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poke_cubit/models/pokemon.model.dart';
 
-
 class PokemonDetailsPage extends StatefulWidget {
   final Pokemon pokemon;
   PokemonDetailsPage({Key? key, required this.pokemon}) : super(key: key);
@@ -22,6 +21,12 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
   );
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
@@ -39,7 +44,6 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-
       body: Stack(
         fit: StackFit.expand,
         children: [

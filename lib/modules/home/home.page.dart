@@ -19,20 +19,10 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey();
   double listpadding = 100;
   bool isSearch = false;
-  String nameFilter = '';
+  String filterText = '';
   List<Pokemon> lista = [];
   @override
   Widget build(BuildContext buildContext) {
-    if (nameFilter.isNotEmpty) {
-      if (lista.isNotEmpty) {
-        lista.map((e) {
-          if (!e.name!.contains(nameFilter)) {
-            lista.remove(e);
-          }
-        });
-      }
-    }
-
     var mediaQuery = MediaQuery.of(buildContext);
     return Scaffold(
       key: _scaffoldkey,
@@ -94,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                                     setState(() {
                                       listpadding = isSearch ? 100.0 : 200.0;
                                       isSearch = !isSearch;
+                                      filterText = isSearch ? filterText : '';
                                     });
                                   }),
                             )
@@ -102,9 +93,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                       isSearch
                           ? TextField(
+                              maxLines: 1,
+                              decoration: InputDecoration(icon: Icon(Icons.search), focusColor: Colors.black, border: InputBorder.none, hintText: "Nome do pokemon..."),
                               onChanged: (name) {
                                 setState(() {
-                                  nameFilter = name;
+                                  filterText = name;
                                 });
                               },
                             )
@@ -128,7 +121,17 @@ class _HomePageState extends State<HomePage> {
                         }
                       }, builder: (context, state) {
                         if (state is HomeLoaded) {
-                          List showlist = isSearch ? lista : state.pokeapi.pokemons!;
+                          List<Pokemon> showlist = [];
+                          if (filterText.isNotEmpty) {
+                            for (Pokemon poke in state.pokeapi.pokemons!) {
+                              if (poke.name!.toLowerCase().contains(filterText.toLowerCase())) {
+                                showlist.add(poke);
+                              }
+                            }
+                          } else {
+                            showlist.addAll(state.pokeapi.pokemons!);
+                          }
+
                           return GridView.builder(
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                               itemCount: showlist.length,
@@ -142,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                                         padding: EdgeInsets.all(8),
                                         child: PokeCard(
                                           index: index,
-                                          pokemon: lista[index],
+                                          pokemon: showlist[index],
                                         ),
                                       ),
                                     ),
