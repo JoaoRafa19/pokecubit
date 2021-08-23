@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poke_cubit/models/pokemon.model.dart';
 
+
 class PokemonDetailsPage extends StatefulWidget {
   final Pokemon pokemon;
   PokemonDetailsPage({Key? key, required this.pokemon}) : super(key: key);
@@ -33,7 +34,12 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
           //   icon: Icon(Icons.favorite),
           // ),
         ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
+
       body: Stack(
         fit: StackFit.expand,
         children: [

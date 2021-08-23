@@ -9,7 +9,6 @@ import 'package:poke_cubit/modules/login/login.page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // Getting arguments passed in while calling Navigator.pushNamed
     final args = settings.arguments;
 
     switch (settings.name) {
@@ -28,17 +27,14 @@ class RouteGenerator {
           ),
         );
       case '/details':
-        // Validation of correct data type
         if (args is Pokemon) {
-          return MaterialPageRoute(
-            builder: (context) => PokemonDetailsPage(pokemon: args),
+          return PageRouteBuilder(
+            transitionDuration: Duration(seconds: 3),
+            pageBuilder: (_, __, ___) => PokemonDetailsPage(pokemon: args),
           );
         }
-        // If args is not of the correct type, return an error page.
-        // You can also throw an exception while in development.
         return _errorRoute();
       default:
-        // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
     }
   }

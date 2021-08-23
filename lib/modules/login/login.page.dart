@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
-import 'package:poke_cubit/modules/home/home.page.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
 import 'package:poke_cubit/utils/utils.functions.dart';
 import 'package:poke_cubit/widgets/login/login_container.dart';
