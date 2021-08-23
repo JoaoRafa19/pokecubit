@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
 import 'package:poke_cubit/modules/login/login.page.dart';
-import 'package:poke_cubit/widgets/common/sleep.func.dart';
+import 'package:poke_cubit/utils/utils.functions.dart';
 
+// ignore: must_be_immutable
 class EndDrawer extends StatelessWidget {
   EndDrawer({Key? key}) : super(key: key);
 
+  // ignore: close_sinks
   StreamController _streamController = StreamController<String>();
 
   Stream get output => _streamController.stream;

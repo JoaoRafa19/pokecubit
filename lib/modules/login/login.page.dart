@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
 import 'package:poke_cubit/modules/home/home.page.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
+import 'package:poke_cubit/utils/utils.functions.dart';
 import 'package:poke_cubit/widgets/login/login_container.dart';
 
 class LoginPage extends StatefulWidget {
@@ -57,35 +58,13 @@ class LoginStatefull extends State<LoginPage> with TickerProviderStateMixin {
             child: BlocConsumer<LoginCubit, LoginState>(
               listener: (context, state) async {
                 if (state is LoginErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      behavior: SnackBarBehavior.floating,
-                      margin: EdgeInsets.all(mediaQuery.size.width * .1),
-                      key: Key('SnackBarDefault'),
-                      backgroundColor: Colors.lightBlue,
-                      content: Text(
-                        state.message,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
+                  showSnackBar(context, state.message, 2);
                 } else if (state is LoginSuscessfullState) {
                   String uid = FirebaseAuth.instance.currentUser!.uid;
                   var userDoc = await FirebaseFirestore.instance.collection("users").doc(uid).get();
                   String name = userDoc['name'];
-                  print("nome: $name");
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) => HomeCubit(),
-                        child: HomePage(),
-                      ),
-                    ),
-                  );
+                  showSnackBar(context, "Bem Vindo $name", 2);
+                  Navigator.of(context).pushReplacementNamed('/');
                 }
               },
               builder: (context, state) {
