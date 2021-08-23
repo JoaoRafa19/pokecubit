@@ -23,6 +23,7 @@ class HomeCubit extends Cubit<HomeState> {
       if (pokeapi.pokemons != null && pokeapi.pokemons!.isNotEmpty) {
         pokeapi.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
         emit(HomeLoaded(pokeapi));
+        
       }
     });
   }
