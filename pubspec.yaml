@@ -22,9 +22,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^7.1.0
   email_validator: ^2.0.0-nullsafety
+  cached_network_image: ^3.1.0
+  flutter_spinkit: ^5.0.0
+  http: ^0.13.3
+  flutter_staggered_animations: ^1.0.0
+  
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.1
+  flutter_native_splash: ^1.2.1
   flutter_test:
     sdk: flutter
 
@@ -39,7 +45,11 @@ flutter:
 
   assets:
     - assets/pokeball.png
-
+    - assets/pokeball_dark.png
+    - assets/pokeball_white.png
+    - assets/pokeball_spin.png
+    - assets/pokedex-app-splash.jpg
+    - assets/pokedex-app-splash.png
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -51,3 +61,8 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+flutter_native_splash:
+  color: "#f2f2f2"
+  image: "assets/pokedex-app-splash.png"
+  ios: false
+  fullscreen: true

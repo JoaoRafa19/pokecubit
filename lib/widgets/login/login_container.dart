@@ -50,6 +50,7 @@ class LoginContainer extends StatelessWidget {
             ),
             child: TextFormField(
                 style: GoogleFonts.lato(),
+                obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Senha",
                   focusedBorder: InputBorder.none,

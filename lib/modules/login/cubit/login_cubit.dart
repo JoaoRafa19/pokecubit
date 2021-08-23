@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:poke_cubit/widgets/common/sleep.func.dart';
 
 part 'login_state.dart';
 
@@ -15,18 +14,21 @@ class LoginCubit extends Cubit<LoginState> {
 
   LoginCubit() : super(LoginInitial());
 
+  
+
+  
+
   Future<void> login() async {
     if (_login.isEmpty || _password.isEmpty) {
       emit(LoginErrorState("Login ou senha vazios!"));
       return;
     }
     emit(LoginWaitingState());
-    await sleep(3);
     if (FirebaseAuth.instance.currentUser == null || FirebaseAuth.instance.currentUser?.isAnonymous == true) {
       try {
-        UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _login, password: _password);
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: _login, password: _password);
 
-        if (user.credential?.token == null) {
+        if (FirebaseAuth.instance.currentUser == null) {
           emit(LoginErrorState("Erro no login"));
         } else {
           emit(LoginSuscessfullState());
