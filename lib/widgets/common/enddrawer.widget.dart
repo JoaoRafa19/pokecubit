@@ -29,7 +29,7 @@ class EndDrawer extends StatelessWidget {
     input.add('concluded');
   }
 
-  _logOut(@required BuildContext context) async {
+  _logOut(BuildContext context) async {
     _loading();
     await FirebaseAuth.instance.signOut();
     await sleep(2);
