@@ -76,30 +76,48 @@ class _HomePageState extends State<HomePage> {
                                 style: GoogleFonts.nunito(fontSize: 50, fontWeight: FontWeight.w800, color: Colors.grey[700]),
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(right: 25),
-                              child: IconButton(
-                                  icon: Icon(isSearch ? Icons.cancel : Icons.search, size: 50),
-                                  onPressed: () {
-                                    setState(() {
-                                      listpadding = isSearch ? 100.0 : 200.0;
-                                      isSearch = !isSearch;
-                                      filterText = isSearch ? filterText : '';
-                                    });
-                                  }),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 25),
+                                  child: IconButton(
+                                      icon: Icon(isSearch ? Icons.cancel : Icons.search, size: 50),
+                                      onPressed: () {
+                                        setState(() {
+                                          listpadding = isSearch ? 100.0 : 200.0;
+                                          isSearch = !isSearch;
+                                          filterText = isSearch ? filterText : '';
+                                        });
+                                      }),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 25),
+                                  child: IconButton(
+                                    icon: Icon(Icons.filter_list, size: 50),
+                                    onPressed: () {
+                                      
+                                    },
+                                  ),
+                                ),
+                              ],
                             )
                           ],
                         ),
                       ),
                       isSearch
-                          ? TextField(
-                              maxLines: 1,
-                              decoration: InputDecoration(icon: Icon(Icons.search), focusColor: Colors.black, border: InputBorder.none, hintText: "Nome do pokemon..."),
-                              onChanged: (name) {
-                                setState(() {
-                                  filterText = name;
-                                });
-                              },
+                          ? Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: TextField(
+                                maxLines: 1,
+                                decoration: InputDecoration(icon: Icon(Icons.search), focusColor: Colors.black, border: InputBorder.none, hintText: "Nome do pokemon..."),
+                                onChanged: (name) {
+                                  setState(() {
+                                    filterText = name;
+                                  });
+                                },
+                              ),
                             )
                           : Container(),
                     ],
