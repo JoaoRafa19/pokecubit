@@ -12,8 +12,8 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   PokeAPI pokeapi = PokeAPI(pokemons: []);
 
-  List<String> filtroTipos = [];
-  List<String> tipos = ['Normal', 'Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Fingting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dark', 'Dragon', 'Steel', 'Fairy'];
+  List<String> typesFilter = [];
+  List<String> types = ['Normal', 'Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dark', 'Dragon', 'Steel', 'Fairy'];
   String filterText = '';
   TextEditingController pokemonNameController = new TextEditingController();
 
@@ -23,17 +23,19 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   addTypeFilter(tipo, BuildContext context) {
-    if (filtroTipos.contains(tipo)) {
-      filtroTipos.remove(tipo);
+    print(tipo);
+    if (typesFilter.contains(tipo)) {
+      typesFilter.remove(tipo);
     } else {
-      filtroTipos.add(tipo);
+      typesFilter.add(tipo);
     }
     fetchPokemonList();
     Navigator.pop(context);
   }
 
   fetchPokemonList() {
-    emit(HomeLoading());
+    emit(
+        HomeLoading());
     if (pokeapi.pokemons!.isEmpty) {
       pokeapi = PokeAPI(pokemons: []);
       _loadPokemons().then((pokemons) {
@@ -45,17 +47,20 @@ class HomeCubit extends Cubit<HomeState> {
       });
     } else {
       List<Pokemon> showlist = [];
-      if (this.filtroTipos.isNotEmpty) {
+      if (this.typesFilter.isNotEmpty) {
         for (Pokemon poke in pokeapi.pokemons!) {
-          for (dynamic type in filtroTipos) {
+          for (dynamic type in typesFilter) {
             if (poke.type!.contains(type)) {
               showlist.add(poke);
             }
           }
         }
+        pokeapi.pokemons = showlist;
       }
-      List<Pokemon> newShowList = [];
+
       if (filterText.isNotEmpty) {
+        List<Pokemon> newShowList = [];
+        showlist = showlist.isEmpty ? pokeapi.pokemons! : showlist;
         for (Pokemon poke in showlist) {
           if (poke.name!.toLowerCase().contains(filterText.toLowerCase())) {
             newShowList.add(poke);
@@ -63,9 +68,10 @@ class HomeCubit extends Cubit<HomeState> {
         }
         showlist = newShowList;
         pokeapi.pokemons = showlist;
-        emit(HomeLoaded(pokeapi));
+
       }
     }
+    emit(HomeLoaded(pokeapi));
   }
 
   Future fetchPokemonListTest() async {

@@ -21,11 +21,12 @@ class _HomePageState extends State<HomePage> {
   double listpadding = 100;
   bool isSearch = false;
 
-  showFilterMenu(context) {
-    HomeCubit cubit = context.read<HomeCubit>();
+  showFilterMenu(BuildContext context, HomeCubit cubit  ) {
+    
     showDialog(
         context: context,
         builder: (context) {
+          print("OK");
           return AlertDialog(
               content: Container(
             height: MediaQuery.of(context).size.height * 0.5,
@@ -37,11 +38,11 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Wrap(
-                  children: cubit.tipos
+                  children: cubit.types
                       .map(
                         (tipo) => GestureDetector(
                           onTap: () => cubit.addTypeFilter(tipo, context),
-                          child: Chip(label: Text(tipo), backgroundColor: cubit.filtroTipos.contains(tipo) ? Colors.blueAccent : Colors.grey),
+                          child: Chip(label: Text(tipo), backgroundColor: cubit.typesFilter.contains(tipo) ? Colors.blueAccent : Colors.grey),
                         ),
                       )
                       .toList())
@@ -121,12 +122,14 @@ class _HomePageState extends State<HomePage> {
                                             setState(() {
                                               if (isSearch) {
                                                 listpadding = 100.0;
+                                                _cubit.typesFilter.clear();
+                                                _cubit.pokeapi.pokemons = [];
+                                                _cubit.pokemonNameController.clear();
                                               } else {
                                                 listpadding = 200.0;
                                                 _cubit.filterText = "";
-                                                _cubit.pokemonNameController.clear();
                                               }
-                                              //context.read<HomeCubit>().fetchPokemonList();
+                                              _cubit.fetchPokemonList();
                                               isSearch = !isSearch;
                                             });
                                           }),
@@ -137,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                                           margin: EdgeInsets.only(right: 25),
                                           child: IconButton(
                                             icon: Icon(Icons.filter_list, size: 50),
-                                            onPressed: () => showFilterMenu(context),
+                                            onPressed: () => showFilterMenu(buildContext, _cubit),
                                           ),
                                         );
                                       },
@@ -153,10 +156,13 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child: TextField(
-                                    controller: _cubit.pokemonNameController,
                                     maxLines: 1,
                                     decoration: InputDecoration(icon: Icon(Icons.search), focusColor: Colors.black, border: InputBorder.none, hintText: "Nome do pokemon..."),
-                                    onChanged: (name) => context.watch<HomeCubit>().fetchPokemonList(),
+                                    onChanged: (name) {
+                                      print(name);
+                                      _cubit.filterText = name;
+                                      _cubit.fetchPokemonList();
+                                      },
                                   ),
                                 )
                               : Container(),
