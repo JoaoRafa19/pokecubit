@@ -16,6 +16,11 @@ class HomeCubit extends Cubit<HomeState> {
   List<String> types = ['Normal', 'Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dark', 'Dragon', 'Steel', 'Fairy'];
   String filterText = '';
   TextEditingController pokemonNameController = new TextEditingController();
+  //Range tamanho
+  double? minHeight;
+  double? maxHeight;
+  RangeValues rangeHeight = RangeValues(0, 100);
+  RangeLabels? rangeHeightLabels;
 
 
   HomeCubit() : super(HomeInitial()) {
@@ -34,8 +39,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   fetchPokemonList() {
-    emit(
-        HomeLoading());
+    emit(HomeLoading());
     if (pokeapi.pokemons!.isEmpty) {
       pokeapi = PokeAPI(pokemons: []);
       _loadPokemons().then((pokemons) {
@@ -50,7 +54,7 @@ class HomeCubit extends Cubit<HomeState> {
       if (this.typesFilter.isNotEmpty) {
         for (Pokemon poke in pokeapi.pokemons!) {
           for (dynamic type in typesFilter) {
-            if (poke.type!.contains(type)) {
+            if (poke.type!.contains(type) && !showlist.contains(poke)) {
               showlist.add(poke);
             }
           }
