@@ -6,6 +6,8 @@ import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
 import 'package:poke_cubit/modules/home/home.page.dart';
 import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
 import 'package:poke_cubit/modules/login/login.page.dart';
+import 'package:poke_cubit/modules/signup/cubit/signup_cubit.dart';
+import 'package:poke_cubit/modules/signup/signup.page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -34,6 +36,13 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+      case '/signup':
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SignupCubit>(
+            create: (context) => SignupCubit(),
+            child: SignupPage(),
+          ),
+        );
       default:
         return _errorRoute();
     }

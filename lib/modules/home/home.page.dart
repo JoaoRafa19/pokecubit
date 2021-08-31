@@ -21,11 +21,11 @@ class _HomePageState extends State<HomePage> {
   double listpadding = 100;
   bool isSearch = false;
 
-  showFilterMenu(BuildContext context, HomeCubit cubit  ) {
+  showFilterMenu(BuildContext context, HomeCubit cubit) {
     List<Pokemon> lista = cubit.pokeapiShowList.pokemons!;
 
     int mySortComparison(Pokemon a, Pokemon b) {
-      final double propertyA = double.parse(a.height!.split(' ')[0].replaceAll(',','.'));
+      final double propertyA = double.parse(a.height!.split(' ')[0].replaceAll(',', '.'));
       final double propertyB = double.parse(b.height!.split(' ')[0].replaceAll(',', '.'));
       if (propertyA < propertyB) {
         return -1;
@@ -42,11 +42,10 @@ class _HomePageState extends State<HomePage> {
     cubit.maxHeight = double.parse(lista.last.height!.split(" ")[0].replaceAll(",", "."));
     cubit.rangeHeight = RangeValues(cubit.minHeight!, cubit.maxHeight!);
     cubit.rangeHeightLabels = RangeLabels(cubit.minHeight.toString(), cubit.maxHeight.toString());
-    
+
     showDialog(
         context: context,
         builder: (context) {
-
           return FilterDialogWidget(cubit: cubit);
         });
   }
@@ -85,16 +84,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Positioned(
-                            top: 165,
-                            right: 160,
-                            child: GestureDetector(
-                              child: Icon(Icons.menu, size: 50),
-                              onTap: () {
-                                if (_scaffoldkey.currentState != null) {
-                                  _scaffoldkey.currentState!.openEndDrawer();
-                                }
-                              },
-                            ))
+                          top: 165,
+                          right: 160,
+                          child: GestureDetector(
+                            child: Icon(Icons.menu, size: 50),
+                            onTap: () {
+                              if (_scaffoldkey.currentState != null) {
+                                _scaffoldkey.currentState!.openEndDrawer();
+                              }
+                            },
+                          ),
+                        )
                       ]),
                     ),
                     Container(
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                                       print(name);
                                       _cubit.filterText = name;
                                       _cubit.fetchPokemonList();
-                                      },
+                                    },
                                   ),
                                 )
                               : Container(),
@@ -224,81 +224,77 @@ class _HomePageState extends State<HomePage> {
 
 class FilterDialogWidget extends StatefulWidget {
   final HomeCubit cubit;
-  const FilterDialogWidget({Key? key,  required this.cubit}) : super(key: key);
+  const FilterDialogWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _FilterDialogWidgetState createState() => _FilterDialogWidgetState();
 }
 
 class _FilterDialogWidgetState extends State<FilterDialogWidget> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         content: Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Filtro por tipos:"),
-              ],
-            ),
-            Wrap(
-              children: this.widget.cubit.types.map(
-                    (tipo) => GestureDetector(
+      height: MediaQuery.of(context).size.height * 0.5,
+      child: Column(children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Filtro por tipos:"),
+          ],
+        ),
+        Wrap(
+          children: this
+              .widget
+              .cubit
+              .types
+              .map(
+                (tipo) => GestureDetector(
                   onTap: () => this.widget.cubit.addTypeFilter(tipo, context),
                   child: Chip(label: Text(tipo), backgroundColor: this.widget.cubit.typesFilter.contains(tipo) ? Colors.blueAccent : Colors.grey),
                 ),
-              ).toList(),
-            ),
+              )
+              .toList(),
+        ),
 
-            //TODO: Widget filtro por range de tamanho
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text("Tamanho: "),
-                  Padding(
-                      padding: EdgeInsets.only(top: 5),
-                      child: RangeSlider(
-                        inactiveColor: Colors.black,
-                        activeColor: Colors.blueAccent,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Text("Tamanho: "),
+              Padding(
+                  padding: EdgeInsets.only(top: 5),
+                  child: RangeSlider(
+                    inactiveColor: Colors.black,
+                    activeColor: Colors.blueAccent,
+                    divisions: this.widget.cubit.maxHeight!.toInt(),
+                    labels: this.widget.cubit.rangeHeightLabels,
+                    values: this.widget.cubit.rangeHeight,
+                    min: this.widget.cubit.minHeight!,
+                    max: this.widget.cubit.maxHeight!,
+                    onChanged: (range) {
+                      setState(() {
+                        this.widget.cubit.rangeHeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
+                        this.widget.cubit.rangeHeight = range;
+                      });
+                    },
+                  ))
+            ],
+          ),
+        ),
+        //TODO: Widget filtro por range de peso
 
-                        divisions: this.widget.cubit.maxHeight!.toInt(),
-                        labels: this.widget.cubit.rangeHeightLabels,
-                        values: this.widget.cubit.rangeHeight,
-                        min: this.widget.cubit.minHeight!,
-                        max: this.widget.cubit.maxHeight!,
-                        onChanged: (range){
-                          setState((){
-                            this.widget.cubit.rangeHeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
-                            this.widget.cubit.rangeHeight = range;
-                          });
-                        },
-                      )
-                  )
-                ],
-              ),
-
-            ),
-            //TODO: Widget filtro por range de peso
-
-            IconButton(
-              icon: Icon(Icons.clear, size: 50),
-              onPressed: (){
-                this.widget.cubit.typesFilter.clear();
-                this.widget.cubit.pokeapiShowList.pokemons = [];
-                this.widget.cubit.pokemonNameController.clear();
-                this.widget.cubit.fetchPokemonList();
-                Navigator.of(context).pop();
-              },
-            ),
-
-          ]),
-        ));
+        IconButton(
+          icon: Icon(Icons.clear, size: 50),
+          onPressed: () {
+            this.widget.cubit.typesFilter.clear();
+            this.widget.cubit.pokeapiShowList.pokemons = [];
+            this.widget.cubit.pokemonNameController.clear();
+            this.widget.cubit.fetchPokemonList();
+            Navigator.of(context).pop();
+          },
+        ),
+      ]),
+    ));
   }
 }
-
