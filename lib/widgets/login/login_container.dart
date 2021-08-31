@@ -1,9 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poke_cubit/modules/signup/cubit/signup_cubit.dart';
-import 'package:poke_cubit/modules/signup/signup.page.dart';
 
 class LoginContainer extends StatelessWidget {
   final void Function()? onpressed;
@@ -87,14 +84,7 @@ class LoginContainer extends StatelessWidget {
           SizedBox(height: 14),
           TextButton(
             child: Text("Cadastre-se", textAlign: TextAlign.justify, style: TextStyle(color: Colors.black)),
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => BlocProvider<SignupCubit>(
-                  create: (context) => SignupCubit(),
-                  child: SignupPage(),
-                ),
-              ),
-            ),
+            onPressed: () => Navigator.of(context).pushNamed('/signup')
           )
         ],
       ),

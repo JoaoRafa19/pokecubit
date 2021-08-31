@@ -21,11 +21,11 @@ class _HomePageState extends State<HomePage> {
   double listpadding = 100;
   bool isSearch = false;
 
-  showFilterMenu(BuildContext context, HomeCubit cubit  ) {
+  showFilterMenu(BuildContext context, HomeCubit cubit) {
     List<Pokemon> lista = cubit.pokeapiShowList.pokemons!;
 
     int mySortComparison(Pokemon a, Pokemon b) {
-      final double propertyA = double.parse(a.height!.split(' ')[0].replaceAll(',','.'));
+      final double propertyA = double.parse(a.height!.split(' ')[0].replaceAll(',', '.'));
       final double propertyB = double.parse(b.height!.split(' ')[0].replaceAll(',', '.'));
       if (propertyA < propertyB) {
         return -1;
@@ -110,16 +110,17 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Positioned(
-                            top: 165,
-                            right: 160,
-                            child: GestureDetector(
-                              child: Icon(Icons.menu, size: 50),
-                              onTap: () {
-                                if (_scaffoldkey.currentState != null) {
-                                  _scaffoldkey.currentState!.openEndDrawer();
-                                }
-                              },
-                            ))
+                          top: 165,
+                          right: 160,
+                          child: GestureDetector(
+                            child: Icon(Icons.menu, size: 50),
+                            onTap: () {
+                              if (_scaffoldkey.currentState != null) {
+                                _scaffoldkey.currentState!.openEndDrawer();
+                              }
+                            },
+                          ),
+                        )
                       ]),
                     ),
                     Container(
@@ -186,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                                     onChanged: (name) {
                                       _cubit.filterText = name;
                                       _cubit.fetchPokemonList();
-                                      },
+                                    },
                                   ),
                                 )
                               : Container(),
@@ -248,16 +249,13 @@ class _HomePageState extends State<HomePage> {
 
 class FilterDialogWidget extends StatefulWidget {
   final HomeCubit cubit;
-  const FilterDialogWidget({Key? key,  required this.cubit}) : super(key: key);
+  const FilterDialogWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   _FilterDialogWidgetState createState() => _FilterDialogWidgetState();
 }
 
 class _FilterDialogWidgetState extends State<FilterDialogWidget> {
-
-
-
   @override
   Widget build(BuildContext context) {
     print(this.widget.cubit.rangeHeight.start);
@@ -354,8 +352,17 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
               },
             ),
 
-          ]),
-        ));
+        IconButton(
+          icon: Icon(Icons.clear, size: 50),
+          onPressed: () {
+            this.widget.cubit.typesFilter.clear();
+            this.widget.cubit.pokeapiShowList.pokemons = [];
+            this.widget.cubit.pokemonNameController.clear();
+            this.widget.cubit.fetchPokemonList();
+            Navigator.of(context).pop();
+          },
+        ),
+      ]),
+    ));
   }
 }
-

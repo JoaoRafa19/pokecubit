@@ -7,12 +7,12 @@ import 'package:poke_cubit/utils/generate_routes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(PokecubitApp());
 }
 
-class MyApp extends StatelessWidget {
+class PokecubitApp extends StatelessWidget {
   static final FirebaseAuth auth = FirebaseAuth.instance;
-  MyApp() {
+  PokecubitApp() {
     //auth.signOut();
     if (auth.currentUser != null) {
       if (auth.currentUser!.isAnonymous) {
