@@ -5,13 +5,13 @@ void main() async {
   HomeCubit homeCubit = HomeCubit();
   test("Quando abrir a tela deve carregar a lista de pokemons", () async {
     await homeCubit.fetchPokemonListTest();
-    if (homeCubit.pokeapi.pokemons != null) {
-      expect(homeCubit.pokeapi.pokemons!.isEmpty, false);
+    if (homeCubit.pokeapiShowList.pokemons != null) {
+      expect(homeCubit.pokeapiShowList.pokemons!.isEmpty, false);
     }
   });
 
   test("A lista carregada deve estar em ordem alfabetica", () {
-    expect(homeCubit.pokeapi.pokemons![0].name, "Abra");
-    expect(homeCubit.pokeapi.pokemons!.last.name, "Zubat");
+    expect(homeCubit.pokeapiShowList.pokemons![0].name, "Abra");
+    expect(homeCubit.pokeapiShowList.pokemons!.last.name, "Zubat");
   });
 }

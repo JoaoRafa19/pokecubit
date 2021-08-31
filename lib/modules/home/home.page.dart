@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   bool isSearch = false;
 
   showFilterMenu(BuildContext context, HomeCubit cubit  ) {
-    List<Pokemon> lista = cubit.pokeapi.pokemons!;
+    List<Pokemon> lista = cubit.pokeapiShowList.pokemons!;
 
     int mySortComparison(Pokemon a, Pokemon b) {
       final double propertyA = double.parse(a.height!.split(' ')[0].replaceAll(',','.'));
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                               if (isSearch) {
                                                 listpadding = 100.0;
                                                 _cubit.typesFilter.clear();
-                                                _cubit.pokeapi.pokemons = [];
+                                                _cubit.pokeapiShowList.pokemons = [];
                                                 _cubit.pokemonNameController.clear();
                                               } else {
                                                 listpadding = 200.0;
@@ -290,7 +290,7 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
               icon: Icon(Icons.clear, size: 50),
               onPressed: (){
                 this.widget.cubit.typesFilter.clear();
-                this.widget.cubit.pokeapi.pokemons = [];
+                this.widget.cubit.pokeapiShowList.pokemons = [];
                 this.widget.cubit.pokemonNameController.clear();
                 this.widget.cubit.fetchPokemonList();
                 Navigator.of(context).pop();

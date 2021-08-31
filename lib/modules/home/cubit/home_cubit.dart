@@ -10,7 +10,8 @@ import 'package:poke_cubit/utils/constants.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  PokeAPI pokeapi = PokeAPI(pokemons: []);
+  PokeAPI pokeapiShowList = PokeAPI(pokemons: []);
+  PokeAPI pokeapibackup = PokeAPI(pokemons: []);
 
   List<String> typesFilter = [];
   List<String> types = ['Normal', 'Fire', 'Water', 'Grass', 'Electric', 'Ice', 'Fighting', 'Poison', 'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dark', 'Dragon', 'Steel', 'Fairy'];
@@ -40,51 +41,58 @@ class HomeCubit extends Cubit<HomeState> {
 
   fetchPokemonList() {
     emit(HomeLoading());
-    if (pokeapi.pokemons!.isEmpty) {
-      pokeapi = PokeAPI(pokemons: []);
+    if (pokeapiShowList.pokemons!.isEmpty) {
+      pokeapiShowList = PokeAPI(pokemons: []);
       _loadPokemons().then((pokemons) {
-        pokeapi = pokemons;
-        if (pokeapi.pokemons != null && pokeapi.pokemons!.isNotEmpty) {
-          pokeapi.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
-          emit(HomeLoaded(pokeapi));
+        pokeapiShowList = pokemons;
+        if (pokeapiShowList.pokemons != null && pokeapiShowList.pokemons!.isNotEmpty) {
+          pokeapiShowList.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+          pokeapibackup = pokeapiShowList;
+          emit(HomeLoaded(pokeapiShowList));
         }
       });
     } else {
       List<Pokemon> showlist = [];
       if (this.typesFilter.isNotEmpty) {
-        for (Pokemon poke in pokeapi.pokemons!) {
+        for (Pokemon poke in pokeapiShowList.pokemons!) {
           for (dynamic type in typesFilter) {
             if (poke.type!.contains(type) && !showlist.contains(poke)) {
               showlist.add(poke);
             }
           }
         }
-        pokeapi.pokemons = showlist;
+        pokeapiShowList.pokemons = showlist;
+      }else{
+        pokeapiShowList = pokeapibackup;
+        for(Pokemon poke in pokeapiShowList.pokemons!){
+          showlist.add(poke);
+        }
+        pokeapiShowList.pokemons = showlist;
       }
 
       if (filterText.isNotEmpty) {
         List<Pokemon> newShowList = [];
-        showlist = showlist.isEmpty ? pokeapi.pokemons! : showlist;
+        showlist = showlist.isEmpty ? pokeapiShowList.pokemons! : showlist;
         for (Pokemon poke in showlist) {
           if (poke.name!.toLowerCase().contains(filterText.toLowerCase())) {
             newShowList.add(poke);
           }
         }
         showlist = newShowList;
-        pokeapi.pokemons = showlist;
+        pokeapiShowList.pokemons = showlist;
 
       }
     }
-    emit(HomeLoaded(pokeapi));
+    emit(HomeLoaded(pokeapiShowList));
   }
 
   Future fetchPokemonListTest() async {
     emit(HomeLoading());
-    pokeapi = PokeAPI(pokemons: []);
-    pokeapi = await _loadPokemons();
-    if (pokeapi.pokemons != null && pokeapi.pokemons!.isNotEmpty) {
-      pokeapi.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
-      emit(HomeLoaded(pokeapi));
+    pokeapiShowList = PokeAPI(pokemons: []);
+    pokeapiShowList = await _loadPokemons();
+    if (pokeapiShowList.pokemons != null && pokeapiShowList.pokemons!.isNotEmpty) {
+      pokeapiShowList.pokemons!.sort((a, b) => a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
+      emit(HomeLoaded(pokeapiShowList));
     }
   }
 
