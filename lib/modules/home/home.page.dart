@@ -40,13 +40,39 @@ class _HomePageState extends State<HomePage> {
 
     cubit.minHeight = double.parse(lista[0].height!.split(" ")[0].replaceAll(",", "."));
     cubit.maxHeight = double.parse(lista.last.height!.split(" ")[0].replaceAll(",", "."));
-    cubit.rangeHeight = RangeValues(cubit.minHeight!, cubit.maxHeight!);
+    if(!cubit.rangeGet){
+      cubit.rangeHeight = RangeValues(cubit.minHeight!, cubit.maxHeight!);
+      cubit.rangeGet = true;
+    }
     cubit.rangeHeightLabels = RangeLabels(cubit.minHeight.toString(), cubit.maxHeight.toString());
-    
+
+    //Ordena por peso
+    int mySortWeightComparison(Pokemon a, Pokemon b) {
+      final double propertyA = double.parse(a.weight!.split(' ')[0].replaceAll(',','.'));
+      final double propertyB = double.parse(b.weight!.split(' ')[0].replaceAll(',', '.'));
+      if (propertyA < propertyB) {
+        return -1;
+      } else if (propertyA > propertyB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
+    lista.sort(mySortWeightComparison);
+
+    cubit.minWeight = double.parse(lista[0].weight!.split(" ")[0].replaceAll(",", "."));
+    cubit.maxWeight = double.parse(lista.last.weight!.split(" ")[0].replaceAll(",", "."));
+    if(!cubit.rangeWeightGet){
+      cubit.rangeWeight = RangeValues(cubit.minWeight!, cubit.maxWeight!);
+      cubit.rangeWeightGet = true;
+    }
+    cubit.rangeWeightLabels = RangeLabels(cubit.minWeight.toString(), cubit.maxWeight.toString());
+
+
     showDialog(
         context: context,
         builder: (context) {
-
           return FilterDialogWidget(cubit: cubit);
         });
   }
@@ -68,7 +94,6 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: mediaQuery.size.height * 0.1),
               child: Center(
                 child: Stack(
-                  //fit: StackFit.passthrough,
                   alignment: Alignment.topCenter,
                   clipBehavior: Clip.none,
                   children: <Widget>[
@@ -159,7 +184,6 @@ class _HomePageState extends State<HomePage> {
                                     maxLines: 1,
                                     decoration: InputDecoration(icon: Icon(Icons.search), focusColor: Colors.black, border: InputBorder.none, hintText: "Nome do pokemon..."),
                                     onChanged: (name) {
-                                      print(name);
                                       _cubit.filterText = name;
                                       _cubit.fetchPokemonList();
                                       },
@@ -236,9 +260,10 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(this.widget.cubit.rangeHeight.start);
     return AlertDialog(
         content: Container(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.6,
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -267,7 +292,7 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
                         inactiveColor: Colors.black,
                         activeColor: Colors.blueAccent,
 
-                        divisions: this.widget.cubit.maxHeight!.toInt(),
+                        //divisions: this.widget.cubit.maxHeight!.toInt(),
                         labels: this.widget.cubit.rangeHeightLabels,
                         values: this.widget.cubit.rangeHeight,
                         min: this.widget.cubit.minHeight!,
@@ -276,6 +301,7 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
                           setState((){
                             this.widget.cubit.rangeHeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
                             this.widget.cubit.rangeHeight = range;
+                            this.widget.cubit.fetchPokemonList();
                           });
                         },
                       )
@@ -285,6 +311,35 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
 
             ),
             //TODO: Widget filtro por range de peso
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text("Peso: "),
+                  Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: RangeSlider(
+                        inactiveColor: Colors.black,
+                        activeColor: Colors.blueAccent,
+
+
+                        labels: this.widget.cubit.rangeWeightLabels,
+                        values: this.widget.cubit.rangeWeight,
+                        min: this.widget.cubit.minWeight!,
+                        max: this.widget.cubit.maxWeight!,
+                        onChanged: (range){
+                          setState((){
+                            this.widget.cubit.rangeWeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
+                            this.widget.cubit.rangeWeight = range;
+                            this.widget.cubit.fetchPokemonList();
+                          });
+                        },
+                      )
+                  )
+                ],
+              ),
+
+            ),
 
             IconButton(
               icon: Icon(Icons.clear, size: 50),
@@ -293,6 +348,8 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
                 this.widget.cubit.pokeapiShowList.pokemons = [];
                 this.widget.cubit.pokemonNameController.clear();
                 this.widget.cubit.fetchPokemonList();
+                this.widget.cubit.rangeWeightGet = false;
+                this.widget.cubit.rangeGet = false;
                 Navigator.of(context).pop();
               },
             ),

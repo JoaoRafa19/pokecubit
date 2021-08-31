@@ -12,14 +12,28 @@ class EndDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext buildContext) {
+
     var screenSize = MediaQuery.of(buildContext).size;
     return BlocBuilder<DrawerCubit, DrawerState>(
       builder: (context, state) {
         DrawerCubit _cubit = context.watch<DrawerCubit>();
+        _cubit.getData();
         return Drawer(
           child: Container(
             padding: EdgeInsets.only(top: screenSize.height * 0.1, left: 10, right: 10),
             child: Column(children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.all(10),
+              child: state is DrawerLoadingData ? CircularProgressIndicator(color : Colors.black) : Text("Email: ${_cubit.userEmail}", style: GoogleFonts.acme(),)
+
+              ),
+              Padding(
+                  padding: EdgeInsets.all(10),
+                  child: state is DrawerLoadingData ? CircularProgressIndicator(color : Colors.black) : Text("Nome: ${_cubit.userName}", style: GoogleFonts.acme(),)
+
+              ),
+
+
               GestureDetector(
                 onTap: () => _cubit.logOut(context),
                 child: Row(
