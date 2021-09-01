@@ -12,3 +12,4 @@ class HomeLoaded extends HomeState {
 
   HomeLoaded(this.pokeapi);
 }
+

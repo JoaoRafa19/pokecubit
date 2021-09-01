@@ -26,7 +26,6 @@ class SignupCubit extends Cubit<SignUpState> {
       if (error is FirebaseAuthException) {
         emit(SignUpError(error.message));
       }
-      print(error);
     }
   }
 }

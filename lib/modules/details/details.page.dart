@@ -21,6 +21,12 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
   );
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return Scaffold(
@@ -33,6 +39,10 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
           //   icon: Icon(Icons.favorite),
           // ),
         ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -173,7 +183,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> with TickerProv
       lista.add(
         Container(
           padding: EdgeInsets.only(left: 2.5, right: 2.5),
-          margin: EdgeInsets.only(left: 5),
+          margin: EdgeInsets.only(left: 5, top: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: widget.pokemon.color.withAlpha(150),

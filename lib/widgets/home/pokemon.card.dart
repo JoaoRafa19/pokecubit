@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:poke_cubit/models/pokemon.model.dart';
-import 'package:poke_cubit/modules/details/details.page.dart';
 
 class PokeCard extends StatelessWidget {
   final Pokemon pokemon;
@@ -13,7 +12,7 @@ class PokeCard extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: () => Navigator.push(context, PageRouteBuilder(transitionDuration: Duration(seconds: 5), pageBuilder: (_, __, ___) => PokemonDetailsPage(pokemon: pokemon))),
+      onTap: () => Navigator.pushNamed(context, '/details', arguments: pokemon),
       child: Container(
         decoration: BoxDecoration(
           color: this.pokemon.color != null ? this.pokemon.color : Colors.red,

@@ -39,6 +39,12 @@ flutter_icons:
   ios: true
   image_path: "assets/pokedex-icon.png"
 
+flutter_native_splash:
+  color: "#f2f2f2"
+  image: "assets/pokedex-app-splash.png"
+  ios: false
+  fullscreen: true
+
 flutter:
 
   uses-material-design: true
@@ -61,8 +67,3 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-flutter_native_splash:
-  color: "#f2f2f2"
-  image: "assets/pokedex-app-splash.png"
-  ios: false
-  fullscreen: true

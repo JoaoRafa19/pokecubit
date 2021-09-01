@@ -15,7 +15,6 @@ class PokeAPI {
           pokemons?.add(new Pokemon.fromJson(pokemon));
         });
       } catch (e) {
-        print(e);
       }
     }
   }

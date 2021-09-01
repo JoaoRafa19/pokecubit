@@ -1,22 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poke_cubit/modules/home/cubit/home_cubit.dart';
-import 'package:poke_cubit/modules/home/home.page.dart';
-import 'package:poke_cubit/modules/login/cubit/login_cubit.dart';
-import 'package:poke_cubit/modules/login/login.page.dart';
+import 'package:poke_cubit/utils/generate_routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(PokecubitApp());
 }
 
-class MyApp extends StatelessWidget {
+class PokecubitApp extends StatelessWidget {
   static final FirebaseAuth auth = FirebaseAuth.instance;
-  MyApp() {
+  PokecubitApp() {
     //auth.signOut();
     if (auth.currentUser != null) {
       if (auth.currentUser!.isAnonymous) {
@@ -30,15 +26,8 @@ class MyApp extends StatelessWidget {
       title: 'PokeCubit',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, textTheme: GoogleFonts.robotoTextTheme()),
-      home: auth.currentUser == null || auth.currentUser!.isAnonymous
-          ? BlocProvider<LoginCubit>(
-              create: (context) => LoginCubit(),
-              child: LoginPage(),
-            )
-          : BlocProvider<HomeCubit>(
-              create: (context) => HomeCubit(),
-              child: HomePage(),
-            ),
+      onGenerateRoute: RouteGenerator.generateRoute,
+      initialRoute: auth.currentUser == null || auth.currentUser!.isAnonymous ? '/login' : '/',
     );
   }
 }
