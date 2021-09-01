@@ -258,111 +258,99 @@ class FilterDialogWidget extends StatefulWidget {
 class _FilterDialogWidgetState extends State<FilterDialogWidget> {
   @override
   Widget build(BuildContext context) {
-    print(this.widget.cubit.rangeHeight.start);
     return AlertDialog(
         content: Container(
           height: MediaQuery.of(context).size.height * 0.6,
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Filtro por tipos:"),
-              ],
-            ),
-            Wrap(
-              children: this.widget.cubit.types.map(
-                    (tipo) => GestureDetector(
-                  onTap: () => this.widget.cubit.addTypeFilter(tipo, context),
-                  child: Chip(label: Text(tipo), backgroundColor: this.widget.cubit.typesFilter.contains(tipo) ? Colors.blueAccent : Colors.grey),
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Filtro por tipos:"),
+                ],
+              ),
+              Wrap(
+                children: this.widget.cubit.types.map(
+                      (tipo) => GestureDetector(
+                    onTap: () => this.widget.cubit.addTypeFilter(tipo, context),
+                    child: Chip(label: Text(tipo), backgroundColor: this.widget.cubit.typesFilter.contains(tipo) ? Colors.blueAccent : Colors.grey),
+                  ),
+                ).toList(),
+              ),
+
+              //TODO: Widget filtro por range de tamanho
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text("Tamanho: "),
+                    Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: RangeSlider(
+                          inactiveColor: Colors.black,
+                          activeColor: Colors.blueAccent,
+                          divisions: this.widget.cubit.maxHeight!.toInt(),
+                          labels: this.widget.cubit.rangeHeightLabels,
+                          values: this.widget.cubit.rangeHeight,
+                          min: this.widget.cubit.minHeight!,
+                          max: this.widget.cubit.maxHeight!,
+                          onChanged: (range){
+                            setState((){
+                              this.widget.cubit.rangeHeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
+                              this.widget.cubit.rangeHeight = range;
+                              this.widget.cubit.fetchPokemonList();
+                            });
+                          },
+                        )
+                    )
+                  ],
                 ),
-              ).toList(),
-            ),
 
-            //TODO: Widget filtro por range de tamanho
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text("Tamanho: "),
-                  Padding(
-                      padding: EdgeInsets.only(top: 5),
-                      child: RangeSlider(
-                        inactiveColor: Colors.black,
-                        activeColor: Colors.blueAccent,
+              ),
+              //TODO: Widget filtro por range de peso
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text("Peso: "),
+                    Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: RangeSlider(
+                          inactiveColor: Colors.black,
+                          activeColor: Colors.blueAccent,
+                          divisions: this.widget.cubit.maxWeight!.toInt(),
+                          labels: this.widget.cubit.rangeWeightLabels,
+                          values: this.widget.cubit.rangeWeight,
+                          min: this.widget.cubit.minWeight!,
+                          max: this.widget.cubit.maxWeight!,
+                          onChanged: (range){
+                            setState((){
+                              this.widget.cubit.rangeWeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
+                              this.widget.cubit.rangeWeight = range;
+                              this.widget.cubit.fetchPokemonList();
+                            });
+                          },
+                        )
+                    )
+                  ],
+                ),
 
-                        //divisions: this.widget.cubit.maxHeight!.toInt(),
-                        labels: this.widget.cubit.rangeHeightLabels,
-                        values: this.widget.cubit.rangeHeight,
-                        min: this.widget.cubit.minHeight!,
-                        max: this.widget.cubit.maxHeight!,
-                        onChanged: (range){
-                          setState((){
-                            this.widget.cubit.rangeHeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
-                            this.widget.cubit.rangeHeight = range;
-                            this.widget.cubit.fetchPokemonList();
-                          });
-                        },
-                      )
-                  )
-                ],
               ),
 
-            ),
-            //TODO: Widget filtro por range de peso
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text("Peso: "),
-                  Padding(
-                      padding: EdgeInsets.only(top: 5),
-                      child: RangeSlider(
-                        inactiveColor: Colors.black,
-                        activeColor: Colors.blueAccent,
-
-
-                        labels: this.widget.cubit.rangeWeightLabels,
-                        values: this.widget.cubit.rangeWeight,
-                        min: this.widget.cubit.minWeight!,
-                        max: this.widget.cubit.maxWeight!,
-                        onChanged: (range){
-                          setState((){
-                            this.widget.cubit.rangeWeightLabels = RangeLabels(range.start.toStringAsFixed(2), range.end.toStringAsFixed(2));
-                            this.widget.cubit.rangeWeight = range;
-                            this.widget.cubit.fetchPokemonList();
-                          });
-                        },
-                      )
-                  )
-                ],
+              IconButton(
+                icon: Icon(Icons.clear, size: 50),
+                onPressed: (){
+                  this.widget.cubit.typesFilter.clear();
+                  this.widget.cubit.pokeapiShowList.pokemons = [];
+                  this.widget.cubit.pokemonNameController.clear();
+                  this.widget.cubit.fetchPokemonList();
+                  this.widget.cubit.rangeWeightGet = false;
+                  this.widget.cubit.rangeGet = false;
+                  Navigator.of(context).pop();
+                },
               ),
-
-            ),
-
-            IconButton(
-              icon: Icon(Icons.clear, size: 50),
-              onPressed: (){
-                this.widget.cubit.typesFilter.clear();
-                this.widget.cubit.pokeapiShowList.pokemons = [];
-                this.widget.cubit.pokemonNameController.clear();
-                this.widget.cubit.fetchPokemonList();
-                this.widget.cubit.rangeWeightGet = false;
-                this.widget.cubit.rangeGet = false;
-                Navigator.of(context).pop();
-              },
-            ),
-
-        IconButton(
-          icon: Icon(Icons.clear, size: 50),
-          onPressed: () {
-            this.widget.cubit.typesFilter.clear();
-            this.widget.cubit.pokeapiShowList.pokemons = [];
-            this.widget.cubit.pokemonNameController.clear();
-            this.widget.cubit.fetchPokemonList();
-            Navigator.of(context).pop();
-          },
-        ),
       ]),
+          ),
     ));
   }
 }

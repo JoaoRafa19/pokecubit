@@ -12,28 +12,56 @@ class EndDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext buildContext) {
-
     var screenSize = MediaQuery.of(buildContext).size;
     return BlocBuilder<DrawerCubit, DrawerState>(
       builder: (context, state) {
         DrawerCubit _cubit = context.watch<DrawerCubit>();
-        _cubit.getData();
+        if (_cubit.userEmail == '' && _cubit.userName == '') {
+          _cubit.getData();
+        }
         return Drawer(
           child: Container(
-            padding: EdgeInsets.only(top: screenSize.height * 0.1, left: 10, right: 10),
+            padding: EdgeInsets.only(
+                top: screenSize.height * 0.1, left: 10, right: 10),
             child: Column(children: <Widget>[
               Padding(
-                  padding: EdgeInsets.all(10),
-              child: state is DrawerLoadingData ? CircularProgressIndicator(color : Colors.black) : Text("Email: ${_cubit.userEmail}", style: GoogleFonts.acme(),)
-
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.account_circle,
+                  size: screenSize.width * 0.25,
+                ),
               ),
-              Padding(
-                  padding: EdgeInsets.all(10),
-                  child: state is DrawerLoadingData ? CircularProgressIndicator(color : Colors.black) : Text("Nome: ${_cubit.userName}", style: GoogleFonts.acme(),)
-
+              Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withAlpha(100),
+                    borderRadius: BorderRadius.circular(25),
+                    gradient: LinearGradient(colors: [
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor.withAlpha(100)
+                    ])),
+                margin: EdgeInsets.only(bottom: screenSize.height * 0.1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: state is DrawerLoadingData
+                            ? CircularProgressIndicator(color: Colors.black)
+                            : Text(
+                                "Email: ${_cubit.userEmail}",
+                                style: GoogleFonts.lato(fontSize: 15),
+                              )),
+                    Padding(
+                        padding: EdgeInsets.all(10),
+                        child: state is DrawerLoadingData
+                            ? CircularProgressIndicator(color: Colors.black)
+                            : Text(
+                                "Nome do treinador :  ${_cubit.userName}",
+                                style: GoogleFonts.lato(fontSize: 15),
+                              )),
+                  ],
+                ),
               ),
-
-
               GestureDetector(
                 onTap: () => _cubit.logOut(context),
                 child: Row(

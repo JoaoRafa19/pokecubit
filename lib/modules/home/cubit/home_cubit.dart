@@ -46,7 +46,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   addTypeFilter(tipo, BuildContext context) {
-    print(tipo);
     if (typesFilter.contains(tipo)) {
       typesFilter.remove(tipo);
     } else {
@@ -115,7 +114,7 @@ class HomeCubit extends Cubit<HomeState> {
       //Filtro por range altura
       List<Pokemon> newList = [];
       for(Pokemon poke in showlist){
-        if(double.parse(poke.height!.split(' ')[0]) > rangeHeight.start && double.parse(poke.height!.split(' ')[0]) < rangeHeight.end){
+        if(double.parse(poke.height!.split(' ')[0]) >= rangeHeight.start && double.parse(poke.height!.split(' ')[0]) <= rangeHeight.end){
             newList.add(poke);
         }
       }
@@ -125,7 +124,7 @@ class HomeCubit extends Cubit<HomeState> {
       //Filtro por range Peso
       newList = [];
       for(Pokemon poke in showlist){
-        if(double.parse(poke.weight!.split(' ')[0]) > rangeWeight.start && double.parse(poke.weight!.split(' ')[0]) < rangeWeight.end){
+        if(double.parse(poke.weight!.split(' ')[0]) >= rangeWeight.start && double.parse(poke.weight!.split(' ')[0]) <= rangeWeight.end){
           newList.add(poke);
         }
       }
@@ -133,7 +132,8 @@ class HomeCubit extends Cubit<HomeState> {
 
       PokeAPI pokelist = PokeAPI(pokemons: []);
       pokelist.pokemons = showlist;
-
+      pokelist.pokemons!.sort((a, b) =>
+          a.name!.toLowerCase().compareTo(b.name!.toLowerCase()));
 
       emit(HomeLoaded(pokelist));
     }
