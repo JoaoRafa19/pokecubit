@@ -278,7 +278,6 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
                 ).toList(),
               ),
 
-              //TODO: Widget filtro por range de tamanho
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -307,7 +306,6 @@ class _FilterDialogWidgetState extends State<FilterDialogWidget> {
                 ),
 
               ),
-              //TODO: Widget filtro por range de peso
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
